@@ -1,4 +1,4 @@
-// Trap Detonate
+// TRAP DETONATE
 
 clearsysmsg 
 if name = 'a stranger' 
