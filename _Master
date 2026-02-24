@@ -1,31 +1,5 @@
 // MASTER for all Builds
 // FORMAT: Skills, Coolodnws, buffs, Warmode, not hidden, not casting, not target exist, regs, item as
- 
-// Tool Set Mage
-// Tool Set Combat
-// Tool Set Tap
-// Tool Set Bard
-// Tool Set Rogue
-// Tool Set Harvesting
-
-// Health Aids
-// Health Potions
-// Health Magery
-// Health Chivalry
-// Health Cooking
-
-// Buffs Potions
-// Buffs Magery
-// Buffs Chivalry
-
-// Utility Recycle
-// Utility Skinning
-// Utility Mage Hat
-
-// Seasonal 
-
-// if warmode = on
-//  will be working on this to add pvp functionality maybe not casting earth but water elese instead.
 
 
 ############ VARABLES ############
@@ -33,10 +7,7 @@ clearsysmsg
 clearignore 
 overhead 'Master'
 
-if not timerexists "magicresistpot"
-    createtimer "magicresistpot"
-    settimer "magicresistpot" 1000
-endif
+
 if not timerexists "searchTimer"
     createtimer "searchTimer"
     settimer 'searchTimer' 10000
@@ -57,14 +28,6 @@ endif
 if not timerexists 'findChestTimerReset'
     createtimer 'findChestTimerReset'
     settimer 'findChestTimerReset' 2000
-endif
-if not timerexists getpilf
-    createtimer getpilf
-    settimer getpilf 0
-endif
-if not timerexists spellinvis
-    createtimer spellinvis
-    settimer spellinvis 1200
 endif
 
 @setvar! lootInChest 1  
@@ -107,7 +70,118 @@ while not dead
 endwhile   
 
 ################################### Main Loop
-while not dead          
+while not dead    
+    // ================================ Health and Wellness Portion    
+    // === Cure - Potion 
+    if not hidden and poisoned and not cooldown 'Cure Potion' and findtype 'Orange Potion' self
+        wait 200 
+        overhead 'Drinking cures!'
+        dclicktype 'Orange Potion'
+        cooldown 'Cure Potion' 1000
+    endif
+    // === Cure - Mage 
+    if not hidden and poisoned and not cooldown 'Cure Potion' and not findtype 'Orange Potion' self and skill 'magery' >= 30 and not casting and not targetexists and not cooldown 'Setting Trap'   
+        cast 'cure'
+        wait 100
+        while casting 
+            wait 100
+        endwhile
+        target self
+    endif    
+    // === Cure - Chivalry
+    if not hidden and poisoned and not cooldown 'Cure Potion' and not findtype 'Orange Potion' self and not findbuff 'Cleanse by Fire' and skill 'Chivalry' >= 60 
+        cast 'Cleanse by Fire'
+    endif      
+    
+    // === Heal - Potion 
+    if not hidden and diffhits > 30 and not cooldown 'Heal Potion' and not targetexists
+        if not hidden and findtype 'Yellow Potion' self and skill 'alchemy' >= 80
+            dclicktype 'Yellow Potion'
+            wait 200
+            overhead 'Drinking heal!'
+            wait 200
+            cooldown 'Heal Potion' 7200           
+        elseif not hidden and findtype 'Yellow Potion' self 
+            dclicktype 'Yellow Potion'
+            wait 200
+            overhead 'Drinking heal!'
+            wait 200
+            cooldown 'Heal Potion' 10200       
+        endif
+    endif
+    
+    // === Heal Greater - Mage 
+    if not hidden and diffhits > 45 and not casting and not targetexists and not cooldown 'Move' and skill 'magery' >= 60 and not cooldown 'Setting Trap' and findtype '3972' self and findtype '3973' self and findtype '3974' self and mana > 54 
+        cast 'Greater Heal'
+        wait 100
+        while casting 
+            wait 100
+        endwhile
+        wft 200
+        target self
+        wait 210
+    endif  
+    
+    // === Heal - Bandage 
+    if not hidden and findtype "clean bandage%s%" self and not bandaging and not targetexists and hp < maxhits 
+        hotkey 'Bandage Self'
+        wait 200            
+    endif      
+    // === Heal - Veterinary
+    if not hidden and findtype 'veterinary supplies' self and not bandaging and not targetexists and hp < maxhits 
+        say [vetsupplies
+        wait 200            
+    endif        
+    // === Heal - Chivalry Holylight
+    if diffhits >= 50 and skill "Chivalry" > 95 and not cooldown 'Holy Light'
+        say '[Holylight'
+        wait 250
+        if insysmsg "Holy symbols remaining:"
+            cooldown 'Holy Light' 31000
+        endif
+    endif  
+    // === Cripple and Disease
+    if not hidden and not findbuff 'Remove Curse' and findbuff 'Cripple' and skill 'Chivalry' >= 50 
+        cast 'Remove Curse'
+    endif   
+
+    if not hidden and not findbuff 'Close Wounds' and findbuff 'Diseased' and skill 'Chivalry' >= 70 
+        cast 'Close Wounds'
+    endif     
+    
+    // === Paralize Check    
+    if paralyzed and findtype "pouch" self
+        say  "[pouch"
+        wait 100  
+        elseif not findtype "pouch" self and not cooldown 'Alert'
+        overhead '= N o  P o u c h e s =' 34
+        wait 200
+        cooldown 'Alert' 10000
+    endif    
+    // ================================ BUFFS      
+    // === Buffs - Potions
+    if findtype 'White Potion' self and not hidden and not findbuff 'Strength'
+        dclicktype 'White Potion' 
+        overhead 'Strength'
+        wait 650       
+    endif
+    if findtype 'Blue Potion' self and not hidden and not findbuff 'Agility'
+        dclicktype 'Blue Potion' 
+        overhead 'Agility'            
+        wait 650       
+    endif    
+    if findtype 'Black Potion' self and not hidden and not findbuff 'Magic Resist Potion'
+        dclicktype 'Black Potion' 
+        overhead 'Magic Resist'
+        wait 650       
+    endif        
+    // === stamina check
+    if diffstam > 10 and not hidden and findtype 'Red Potion' self  
+        overhead 'Refresh'
+        dclicktype 'Red Potion'
+        wait 200
+    endif     
+    
     // ================================ MAGERY TOOL SET
     if skill 'magery' >= 30 
         if skill 'magery' >= 100 and skill 'meditation' >= 80 and skill 'spirit speak' >= 80 and not cooldown 'move' and not cooldown 'Setting Trap' and not hidden and not casting and not targetexists
@@ -329,15 +403,15 @@ while not dead
     endif    
 
     // ================================ TRAPPER TOOL SET
-    if skill 'tinkering' >= 80 and skill 'detecting hidden' >= 80 and skill 'stealing' < 50  
+    if skill 'tinkering' >= 80 and skill 'detecting hidden' >= 80 
         // --- DETECTING HIDDEN
-#        if timer 'searchTimer' > 20000 and not hidden and not cooldown 'Meditate' and diffmana < 20 and not findtype 'shovel' backpack and not targetexists 
-#            overhead 'Searching Area' 44
-#            skill 'detectinghidden'
-#            settimer 'searchTimer' 0  
-#            getlabel backpack pingCheck
-#            target self
-#        endif          
+       if skill 'stealing' < 50 and timer 'searchTimer' > 20000 and not hidden and not cooldown 'Meditate' and diffmana < 20 and not findtype 'shovel' backpack and not targetexists 
+            overhead 'Searching Area' 44
+            skill 'detectinghidden'
+            settimer 'searchTimer' 0  
+            getlabel backpack pingCheck
+            target self
+        endif          
         // -- TRAP
         if insysmsg 'You may now detonate another trap.'  
             cooldown 'Detonate' 1  
@@ -699,119 +773,7 @@ while not dead
             getlabel backpack pingCheck 
             wait 100
         endif
-    endif
-    
-    // ================================ Health and Wellness Portion    
-    // === Cure - Potion 
-    if not hidden and poisoned and not cooldown 'Cure Potion' and findtype 'Orange Potion' self
-        wait 200 
-        overhead 'Drinking cures!'
-        dclicktype 'Orange Potion'
-        cooldown 'Cure Potion' 1000
-    endif
-    // === Cure - Mage 
-    if not hidden and poisoned and not cooldown 'Cure Potion' and not findtype 'Orange Potion' self and skill 'magery' >= 30 and not casting and not targetexists and not cooldown 'Setting Trap'   
-        cast 'cure'
-        wait 100
-        while casting 
-            wait 100
-        endwhile
-        target self
-    endif    
-    // === Cure - Chivalry
-    if not hidden and poisoned and not cooldown 'Cure Potion' and not findtype 'Orange Potion' self and not findbuff 'Cleanse by Fire' and skill 'Chivalry' >= 60 
-        cast 'Cleanse by Fire'
-    endif      
-    
-    
-    // === Heal - Potion 
-    if not hidden and diffhits > 30 and not cooldown 'Heal Potion' and not targetexists
-        if not hidden and findtype 'Yellow Potion' self and skill 'alchemy' >= 80
-            dclicktype 'Yellow Potion'
-            wait 200
-            overhead 'Drinking heal!'
-            wait 200
-            cooldown 'Heal Potion' 7200           
-        elseif not hidden and findtype 'Yellow Potion' self 
-            dclicktype 'Yellow Potion'
-            wait 200
-            overhead 'Drinking heal!'
-            wait 200
-            cooldown 'Heal Potion' 10200       
-        endif
-    endif
-    
-    // === Heal Greater - Mage 
-    if not hidden and diffhits > 45 and not casting and not targetexists and not cooldown 'Move' and skill 'magery' >= 60 and not cooldown 'Setting Trap' and findtype '3972' self and findtype '3973' self and findtype '3974' self and mana > 54 
-        cast 'Greater Heal'
-        wait 100
-        while casting 
-            wait 100
-        endwhile
-        wft 200
-        target self
-        wait 210
     endif  
-    
-    // === Heal - Bandage 
-    if not hidden and findtype "clean bandage%s%" self and not bandaging and not targetexists and hp < maxhits 
-        hotkey 'Bandage Self'
-        wait 200            
-    endif      
-    // === Heal - Veterinary
-    if not hidden and findtype 'veterinary supplies' self and not bandaging and not targetexists and hp < maxhits 
-        say [vetsupplies
-        wait 200            
-    endif        
-    // === Heal - Chivalry Holylight
-    if diffhits >= 50 and skill "Chivalry" > 95 and not cooldown 'Holy Light'
-        say '[Holylight'
-        wait 250
-        if insysmsg "Holy symbols remaining:"
-            cooldown 'Holy Light' 31000
-        endif
-    endif  
-    // === Cripple and Disease
-    if not hidden and not findbuff 'Remove Curse' and findbuff 'Cripple' and skill 'Chivalry' >= 50 
-        cast 'Remove Curse'
-    endif   
-
-    if not hidden and not findbuff 'Close Wounds' and findbuff 'Diseased' and skill 'Chivalry' >= 70 
-        cast 'Close Wounds'
-    endif     
-    
-    // === Paralize Check    
-    if paralyzed and findtype "pouch" self
-        say  "[pouch"
-        wait 100  
-        elseif not findtype "pouch" self and not cooldown 'Alert'
-        overhead '= N o  P o u c h e s =' 34
-        wait 200
-        cooldown 'Alert' 10000
-    endif    
-    // ================================ BUFFS      
-    // === Buffs - Potions
-    if findtype 'White Potion' self and not hidden and not findbuff 'Strength'
-        dclicktype 'White Potion' 
-        overhead 'Strength'
-        wait 650       
-    endif
-    if findtype 'Blue Potion' self and not hidden and not findbuff 'Agility'
-        dclicktype 'Blue Potion' 
-        overhead 'Agility'            
-        wait 650       
-    endif    
-    if findtype 'Black Potion' self and not hidden and not findbuff 'Magic Resist Potion'
-        dclicktype 'Black Potion' 
-        overhead 'Magic Resist'
-        wait 650       
-    endif        
-    // === stamina check
-    if diffstam > 10 and not hidden and findtype 'Red Potion' self  
-        overhead 'Refresh'
-        dclicktype 'Red Potion'
-        wait 200
-    endif       
      
     // ================================ Recycle Section    
     if insysmsg "What should I use these scissors on?" and findtype "sewing kit|saw|pen and ink|tongs|tool kit" backpack
@@ -842,6 +804,9 @@ while not dead
         dclick headware 
         wait 700
     endif  
+    
+    // ================================ ENVIRMENTAL EFFECTS BOSS ROOMS
+    
     
     
 #    // ================================ SEASONAL
@@ -877,6 +842,35 @@ wait 50
 say 'thank you'
 wait 1000
 hotkey 'play script: Subs\Home_Resupply'
+
+
+
+// Tool Set Mage
+// Tool Set Combat
+// Tool Set Tap
+// Tool Set Bard
+// Tool Set Rogue
+// Tool Set Harvesting
+
+// Health Aids
+// Health Potions
+// Health Magery
+// Health Chivalry
+// Health Cooking
+
+// Buffs Potions
+// Buffs Magery
+// Buffs Chivalry
+
+// Utility Recycle
+// Utility Skinning
+// Utility Mage Hat
+
+// Seasonal 
+
+// if warmode = on
+
+
 
 // v1.00 build base version
 // v1.01 added move regs into satchel 
