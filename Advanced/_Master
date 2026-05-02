@@ -55,7 +55,7 @@ while not dead
         break  
     endif     
     if skill 'mace fighting' >= 50 
-        say [WeaponAbility1
+        say [WeaponAbility3
         break 
     endif
     if skill 'swordsmanship' >= 50 
@@ -153,10 +153,6 @@ while not dead
     if paralyzed and findtype "pouch" self
         say  "[pouch"
         wait 100  
-        elseif not findtype "pouch" self and not cooldown 'Alert'
-        overhead '= N o  P o u c h e s =' 34
-        wait 200
-        cooldown 'Alert' 10000
     endif    
     // ================================ BUFFS      
     // === Buffs - Potions
@@ -190,7 +186,8 @@ while not dead
             // ------------------------ Summon Elementals
             if mana > 54 and followers < 4 and findtype '3963' self and findtype '3974' self and findtype '3981' self   
                 cast 'earth Elemental'
-            //cast 'water elemental'
+                //cast 'water elemental'
+                //cast 'fire elemental'
                 wait 100
                 while casting 
                     wait 200
@@ -248,7 +245,7 @@ while not dead
             @ignore energyCorpse    
         endif   
         // === Meditate
-        if diffmana > 50 and skill 'Magery' >= 80 and 'Meditation' >= 80 and not hidden and not cooldown 'move' and not cooldown 'Meditate'
+        if diffmana > 50 and skill 'Magery' >= 80 and skill 'Meditation' >= 80 and not hidden and not cooldown 'move' and not cooldown 'Meditate' and not cooldown 'detecting hidden'
             skill 'meditation'
             cooldown 'Meditate' 10100
         endif   
@@ -304,7 +301,8 @@ while not dead
                     break  
                 endif              
                 if skill 'mace fighting' > 50 
-                    say [WeaponAbility1
+                    say [WeaponAbility3
+                    overhead 'Smash Activated'
                     break 
                 endif
                 if skill 'swordsmanship' > 50 
@@ -318,54 +316,146 @@ while not dead
                 break
             endwhile       
         endif         
-        // ================================ EQUIP WEAPON
-        while rhandempty and lhandempty and not casting and not targetexists and not hidden
-            wait 200
-            if skill 'Fencing' >= 80    
-                if findtype 'kryss' backpack   
-                    dclicktype 'kryss' backpack
-                    overhead 'Kryss'   
-                    say 'All Guard Me'  
-                    break
-                endif        
-            endif
-            if skill 'Mace Fighting' >= 80
-                if findtype 'flail' backpack
-                    dclicktype 'flail' backpack
-                    overhead 'Flail' 
-                    say 'All Guard Me'      
-                    break
-                endif     
-            endif
-            if skill 'Swordsmanship' >= 80
-                if findtype 'scimitar' backpack
-                    dclicktype 'scimitar' backpack
-                    overhead 'Scimitar'
-                    say 'All Guard Me'  
-                    break
-                endif             
-            endif   
-            if skill 'Fishing' >= 80
-                if findtype 'trident' backpack 
-                    dclicktype 'trident' backpack
-                    overhead 'trident' 
-                    say 'All Guard Me'  
-                    break
-                endif             
-            endif    
-            if skill 'Wrestling' >= 80
-                // caesti|fistblade|martial arts scroll
-                if findtype 'martial arts scroll' backpack as weapon
-                    dclick weapon
-                    overhead 'Caesti'
-                    say 'All Guard Me'  
-                    break
-                endif             
-            endif        
-            break 
-        endwhile
     endif
-
+    
+    // ================================ EQUIP WEAPON / SHIELD
+    // heater kite bronze metal buckler
+    if lhandempty and cooldown 'move' and findtype 7031|7029|7026|7035|7027 backpack as _Shield
+        getlabel _Shield desc
+        if 'exceptional' in desc
+            if not casting and not targetexists  
+                dclick _Shield
+                overhead 'Shield'
+                getlabel backpack pingCheck 
+            endif  
+            while rhandempty and not casting and not targetexists 
+                // kryss assasin dager, thunter knife, kukri, warfork, eep, rapier, sabre
+                if skill 'Fencing' >= 80 and findtype 5121|30996|31188|31176|5125|30989|30997|30998 backpack as _1hWeapon
+                    getlabel _1hWeapon desc
+                    if 'exceptional' in desc
+                        dclick _1hWeapon
+                        overhead 'Fencing Weapon'
+                        getlabel backpack pingCheck 
+                    else 
+                        @ignore notWeapon
+                    endif 
+                    break  
+                endif
+                // pick hammer, war axe, mace, maul, war mace,   
+                if skill 'Mace Fighting' >= 80 and findtype 5181|5040|3932|5179|5127 backpack as _1hWeapon
+                    getlabel _1hWeapon desc
+                    if 'exceptional' in desc
+                        dclick _1hWeapon
+                        overhead 'Mace Weapon'
+                        getlabel backpack pingCheck 
+                    else 
+                        @ignore notWeapon
+                    endif 
+                    break  
+                endif 
+                // cutlass, Katanna, scimitar, broadsword, longsword, viking, norse, 
+                if skill 'Swordsmanship' >= 80 and findtype 5185|5119|5046|3934|3937|5049|31128 backpack as _1hWeapon
+                    getlabel _1hWeapon desc
+                    if 'exceptional' in desc
+                        dclick _1hWeapon
+                        overhead 'Sword Weapon'
+                        getlabel backpack pingCheck 
+                    else 
+                        @ignore notWeapon
+                    endif 
+                    break  
+                endif
+                if findtype 3834 backpack as _Spellbook
+                    getlabel _Spellbook desc
+                    if 'exceptional' in desc
+                        dclick _Spellbook
+                        overhead 'Spellbook'
+                        getlabel backpack pingCheck 
+                    else 
+                        @ignore notWeapon
+                    endif 
+                    break  
+                endif               
+                break
+            endwhile                   
+        else 
+            @ignore notWeapon
+        endif   
+    elseif rhandempty and lhandempty and not casting and not targetexists 
+        if skill 'Arcane' >= 80 and findtype 31017|31019|31021|31023|31025|31029|31031|31033|31035|31037|31038|31041|31043|31045|31047|31049|31051|31053|31055 backpack as _2hWeapon
+            getlabel _2hWeapon desc
+            if 'exceptional' in desc
+                dclick _2hWeapon
+                overhead 'Arcane Weapon'
+                getlabel backpack pingCheck 
+            else 
+                @ignore notWeapon
+            endif 
+            break  
+        endif
+        // Harpoon, Trident
+        if skill 'Fishing' >= 80 and findtype 31169|31172 backpack as _2hWeapon
+            getlabel _2hWeapon desc
+            if 'exceptional' in desc
+                dclick _2hWeapon
+                overhead 'Fishing Weapon'
+                getlabel backpack pingCheck 
+            else 
+                @ignore notWeapon
+            endif 
+            break  
+        endif        
+        // short spear, pitchfork, long spear, sarissa
+        if skill 'Fencing' >= 80 and findtype 5123|3719|3938|30992 backpack as _2hWeapon
+            getlabel _2hWeapon desc
+            if 'exceptional' in desc
+                dclick _2hWeapon
+                overhead 'Fencing Weapon'
+                getlabel backpack pingCheck 
+            else 
+                @ignore notWeapon
+            endif 
+            break  
+        endif
+        // war hammer, sledgehammer, great mace, spiked club
+        if skill 'Mace Fighting' >= 80 and findtype 5177|31001|31180|31182 backpack as _2hWeapon
+            getlabel _2hWeapon desc
+            if 'exceptional' in desc
+                dclick _2hWeapon
+                overhead 'Mace Weapon'
+                getlabel backpack pingCheck 
+            else 
+                @ignore notWeapon
+            endif 
+            break  
+        endif 
+        // axe, battle axe, double axe, executioner, lg battle axe, 2h axe, bardiche, halberd, zweilander, giant axe
+        if skill 'Swordsmanship' >= 80 and findtype 3913|3911|3915|3909|5115|5187|3917|5182|30988|31190 backpack as _2hWeapon
+            getlabel _2hWeapon desc
+            if 'exceptional' in desc
+                dclick _2hWeapon
+                overhead 'Sword Weapon'
+                getlabel backpack pingCheck 
+            else 
+                @ignore notWeapon
+            endif 
+            break  
+        endif
+        // caesti, fistblade, martial scroll
+        if skill 'Wrestling' >= 80 and findtype 31141|31142|22187 backpack as _2hWeapon
+            getlabel _2hWeapon desc
+            if 'exceptional' in desc
+                dclick _2hWeapon
+                overhead 'Wrestling Weapon'
+                getlabel backpack pingCheck 
+            else 
+                @ignore notWeapon
+            endif 
+            break  
+        endif        
+    endif 
+    
+        
     // --- DISARM     
     if skill 'armslore' >= 80 and not cooldown 'disarm'
         say [disarm
@@ -405,7 +495,7 @@ while not dead
     // ================================ TRAPPER TOOL SET
     if skill 'tinkering' >= 80 and skill 'detecting hidden' >= 80 
         // --- DETECTING HIDDEN
-       if skill 'stealing' < 50 and timer 'searchTimer' > 20000 and not hidden and not cooldown 'Meditate' and diffmana < 20 and not findtype 'shovel' backpack and not targetexists 
+        if skill 'stealing' < 50 and timer 'searchTimer' > 10000 and not hidden and not cooldown 'Meditate' and diffmana < 20 and not findtype 'shovel' backpack and not targetexists 
             overhead 'Searching Area' 44
             skill 'detectinghidden'
             settimer 'searchTimer' 0  
@@ -574,7 +664,6 @@ while not dead
                     overhead 'Partially Disarmed' 2085 chest
                     settimer 'openChestTimer' 0
                     settimer 'notification' 0
-                    dclicktype 'scissors' 
                     break
                 endif   
                 if "lockpick" in desc
@@ -759,49 +848,44 @@ while not dead
             cooldown 'Harvest' 10000       
         endif
     endif
-    
-    // ================================ EQUIPT SHIELD
-    if lhandempty and skill 'magery' >= 80 and cooldown 'move' and findtype '7034' backpack as myShield
-        wait 222
-        if not casting and not targetexists 
-            while queued
-                //donothing
-                overhead 'queued Shield'
-                wait 111
-            endwhile   
-            dclick myShield
-            getlabel backpack pingCheck 
-            wait 100
-        endif
-    endif  
      
     // ================================ Recycle Section    
     if insysmsg "What should I use these scissors on?" and findtype "sewing kit|saw|pen and ink|tongs|tool kit" backpack
         hotkey 'Cancel Current Target'
         getlabel backpack ping
+        // reg satchel
         if findtype '30765' self as mySatchel
             menu 'mySatchel' 0
         endif
+        // pot satchel
+        if findtype '31262' self as mySatchel
+            menu 'mySatchel' 0
+        endif     
+        // quiver
+        if findtype '12215' self as mySatchel
+            menu 'mySatchel' 0
+        endif            
         if findtype 20496 backpack as IDwand
             hotkey 'play script: Subs\sub_Recycle'    
         endif
     endif           
-    // ================================ SKINNING HIDES
-    if not hidden and not casting and findtype "corpse" ground -1 -1 2 and findtype 'Elven SpellBlade' self as 'blade'
-        dclick 'blade'
-        wft 850
-        target 'blade'
-        getlabel backpack pingCheck
-        @ignore harvestCorpse
-    endif 
+#    // ================================ SKINNING HIDES
+#    if not hidden and not casting and not cooldown 'Harvest' and findtype 'corpse' ground -1 -1 2 as 'HarvestThis' and findtype 'Elven SpellBlade' self as 'blade'
+#        dclick 'blade'
+#        wft 850
+#        target 'HarvestThis'
+#        getlabel backpack pingCheck
+#        @ignore HarvestThis
+#        cooldown 'Harvest' 2000
+#    endif 
    
     // ================================ MAGE HAT
     if hidden and stam = maxstam and findtype '5912' backpack 
         dclicktype '5912' 
         wait 700 
     endif 
-    if findtype '10136|21786|21940|31156|31212|31214|31243|31244|31280|31289|31320|31335|31354|31371|31383|31394|31399|31403' backpack as headware
-        dclick headware 
+    if findtype '5443|10136|21786|21940|31156|31212|31214|31243|31244|31280|31289|31304|31320|31335|31354|31371|31383|31394|31399|31403' backpack as ArmorHelm
+        dclick ArmorHelm 
         wait 700
     endif  
     
@@ -875,3 +959,6 @@ hotkey 'play script: Subs\Home_Resupply'
 // v1.00 build base version
 // v1.01 added move regs into satchel 
 // rebuilt the mage catigory
+// v1.02 edited recycle to include quiver and pots
+// v1.03 moved health and wellness to top
+// v1.04 rebuilt weapon & shield equip
