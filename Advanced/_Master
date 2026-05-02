@@ -332,129 +332,127 @@ while not dead
             endif 
             while rhandempty and not casting and not targetexists 
                 // kryss assasin dager, thunter knife, kukri, warfork, eep, rapier, sabre
-                if skill 'Fencing' >= 80 and findtype 5121|30996|31188|31176|5125|30989|30997|30998 backpack as _1hWeapon
+                while skill 'Fencing' >= 80 and findtype 5121|30996|31188|31176|5125|30989|30997|30998 backpack as _1hWeapon
                     getlabel _1hWeapon desc
                     if 'exceptional' in desc
                         dclick _1hWeapon
                         overhead 'Fencing Weapon'
                         getlabel backpack pingCheck 
+                        break
                     else 
                         @ignore _1hWeapon
                     endif 
-                    break  
-                endif
+                endwhile
                 // pick hammer, war axe, mace, maul, war mace,   
-                if skill 'Mace Fighting' >= 80 and findtype 5181|5040|3932|5179|5127 backpack as _1hWeapon
+                while skill 'Mace Fighting' >= 80 and findtype 5181|5040|3932|5179|5127 backpack as _1hWeapon
                     getlabel _1hWeapon desc
                     if 'exceptional' in desc
                         dclick _1hWeapon
                         overhead 'Mace Weapon'
                         getlabel backpack pingCheck 
+                        break
                     else 
                         @ignore _1hWeapon
-                    endif 
-                    break  
-                endif 
+                    endif
+                endwhile
                 // cutlass, Katanna, scimitar, broadsword, longsword, viking, norse, 
-                if skill 'Swordsmanship' >= 80 and findtype 5185|5119|5046|3934|3937|5049|31128 backpack as _1hWeapon
+                while skill 'Swordsmanship' >= 80 and findtype 5185|5119|5046|3934|3937|5049|31128 backpack as _1hWeapon
                     getlabel _1hWeapon desc
                     if 'exceptional' in desc
                         dclick _1hWeapon
                         overhead 'Sword Weapon'
                         getlabel backpack pingCheck 
+                        break
                     else 
                         @ignore _1hWeapon
                     endif 
-                    break  
-                endif
-                if findtype 3834 backpack as _Spellbook
+                endwhile
+                while findtype 3834 backpack as _Spellbook
                     getlabel _Spellbook desc
                     if 'exceptional' in desc
                         dclick _Spellbook
                         overhead 'Spellbook'
                         getlabel backpack pingCheck 
+                        break
                     else 
                         @ignore _Spellbook
                     endif 
-                    break  
-                endif               
+                endwhile              
                 break
             endwhile                   
-        else 
-            @ignore notWeapon
         endif   
     elseif rhandempty and lhandempty and not casting and not targetexists 
-        if skill 'Arcane' >= 80 and findtype 31017|31019|31021|31023|31025|31029|31031|31033|31035|31037|31038|31041|31043|31045|31047|31049|31051|31053|31055 backpack as _2hWeapon
+        while skill 'Arcane' >= 80 and findtype 31017|31019|31021|31023|31025|31029|31031|31033|31035|31037|31038|31041|31043|31045|31047|31049|31051|31053|31055 backpack as _2hWeapon
             getlabel _2hWeapon desc
             if 'exceptional' in desc
                 dclick _2hWeapon
                 overhead 'Arcane Weapon'
                 getlabel backpack pingCheck 
+                break
             else 
                 @ignore _2hWeapon
             endif 
-            break  
-        endif
+        endwhile
         // Harpoon, Trident
-        if skill 'Fishing' >= 80 and findtype 31169|31172 backpack as _2hWeapon
+        while skill 'Fishing' >= 80 and findtype 31169|31172 backpack as _2hWeapon
             getlabel _2hWeapon desc
             if 'exceptional' in desc
                 dclick _2hWeapon
                 overhead 'Fishing Weapon'
                 getlabel backpack pingCheck 
+                break
             else 
                 @ignore _2hWeapon
             endif 
-            break  
-        endif        
+        endwhile        
         // short spear, pitchfork, long spear, sarissa
-        if skill 'Fencing' >= 80 and findtype 5123|3719|3938|30992 backpack as _2hWeapon
+        while skill 'Fencing' >= 80 and findtype 5123|3719|3938|30992 backpack as _2hWeapon
             getlabel _2hWeapon desc
             if 'exceptional' in desc
                 dclick _2hWeapon
                 overhead 'Fencing Weapon'
                 getlabel backpack pingCheck 
+                break
             else 
                 @ignore _2hWeapon
-            endif 
-            break  
-        endif
+            endif  
+        endwhile
         // war hammer, sledgehammer, great mace, spiked club
-        if skill 'Mace Fighting' >= 80 and findtype 5177|31001|31180|31182 backpack as _2hWeapon
+        while skill 'Mace Fighting' >= 80 and findtype 5177|31001|31180|31182 backpack as _2hWeapon
             getlabel _2hWeapon desc
             if 'exceptional' in desc
                 dclick _2hWeapon
                 overhead 'Mace Weapon'
                 getlabel backpack pingCheck 
+                break
             else 
                 @ignore _2hWeapon
             endif 
-            break  
-        endif 
+        endwhile
         // axe, battle axe, double axe, executioner, lg battle axe, 2h axe, bardiche, halberd, zweilander, giant axe
-        if skill 'Swordsmanship' >= 80 and findtype 3913|3911|3915|3909|5115|5187|3917|5182|30988|31190 backpack as _2hWeapon
+        while skill 'Swordsmanship' >= 80 and findtype 3913|3911|3915|3909|5115|5187|3917|5182|30988|31190 backpack as _2hWeapon
             getlabel _2hWeapon desc
             if 'exceptional' in desc
                 dclick _2hWeapon
                 overhead 'Sword Weapon'
                 getlabel backpack pingCheck 
+                break
             else 
                 @ignore _2hWeapon
-            endif 
-            break  
-        endif
+            endif
+        endwhile
         // caesti, fistblade, martial scroll
-        if skill 'Wrestling' >= 80 and findtype 31141|31142|22187 backpack as _2hWeapon
+        while skill 'Wrestling' >= 80 and findtype 31141|31142|22187 backpack as _2hWeapon
             getlabel _2hWeapon desc
             if 'exceptional' in desc
                 dclick _2hWeapon
                 overhead 'Wrestling Weapon'
                 getlabel backpack pingCheck 
+                break
             else 
                 @ignore _2hWeapon
-            endif 
-            break  
-        endif        
+            endif
+        endwhile       
     endif 
     
         
