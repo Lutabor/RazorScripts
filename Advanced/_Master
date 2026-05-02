@@ -327,7 +327,9 @@ while not dead
                 dclick _Shield
                 overhead 'Shield'
                 getlabel backpack pingCheck 
-            endif  
+            else 
+                @ignore _1hWeapon
+            endif 
             while rhandempty and not casting and not targetexists 
                 // kryss assasin dager, thunter knife, kukri, warfork, eep, rapier, sabre
                 if skill 'Fencing' >= 80 and findtype 5121|30996|31188|31176|5125|30989|30997|30998 backpack as _1hWeapon
@@ -337,7 +339,7 @@ while not dead
                         overhead 'Fencing Weapon'
                         getlabel backpack pingCheck 
                     else 
-                        @ignore notWeapon
+                        @ignore _1hWeapon
                     endif 
                     break  
                 endif
@@ -349,7 +351,7 @@ while not dead
                         overhead 'Mace Weapon'
                         getlabel backpack pingCheck 
                     else 
-                        @ignore notWeapon
+                        @ignore _1hWeapon
                     endif 
                     break  
                 endif 
@@ -361,7 +363,7 @@ while not dead
                         overhead 'Sword Weapon'
                         getlabel backpack pingCheck 
                     else 
-                        @ignore notWeapon
+                        @ignore _1hWeapon
                     endif 
                     break  
                 endif
@@ -372,7 +374,7 @@ while not dead
                         overhead 'Spellbook'
                         getlabel backpack pingCheck 
                     else 
-                        @ignore notWeapon
+                        @ignore _Spellbook
                     endif 
                     break  
                 endif               
@@ -389,7 +391,7 @@ while not dead
                 overhead 'Arcane Weapon'
                 getlabel backpack pingCheck 
             else 
-                @ignore notWeapon
+                @ignore _2hWeapon
             endif 
             break  
         endif
@@ -401,7 +403,7 @@ while not dead
                 overhead 'Fishing Weapon'
                 getlabel backpack pingCheck 
             else 
-                @ignore notWeapon
+                @ignore _2hWeapon
             endif 
             break  
         endif        
@@ -413,7 +415,7 @@ while not dead
                 overhead 'Fencing Weapon'
                 getlabel backpack pingCheck 
             else 
-                @ignore notWeapon
+                @ignore _2hWeapon
             endif 
             break  
         endif
@@ -425,7 +427,7 @@ while not dead
                 overhead 'Mace Weapon'
                 getlabel backpack pingCheck 
             else 
-                @ignore notWeapon
+                @ignore _2hWeapon
             endif 
             break  
         endif 
@@ -437,7 +439,7 @@ while not dead
                 overhead 'Sword Weapon'
                 getlabel backpack pingCheck 
             else 
-                @ignore notWeapon
+                @ignore _2hWeapon
             endif 
             break  
         endif
@@ -449,7 +451,7 @@ while not dead
                 overhead 'Wrestling Weapon'
                 getlabel backpack pingCheck 
             else 
-                @ignore notWeapon
+                @ignore _2hWeapon
             endif 
             break  
         endif        
@@ -960,5 +962,5 @@ hotkey 'play script: Subs\Home_Resupply'
 // v1.01 added move regs into satchel 
 // rebuilt the mage catigory
 // v1.02 edited recycle to include quiver and pots
-// v1.03 moved health and wellness to top
-// v1.04 rebuilt weapon & shield equip
+// v1.03 moved health and wellnesss
+// v1.05 re worked weapon/shield/spellbook
