@@ -1,5 +1,5 @@
 // TRAP SET
-dclicktype '19821'
+say [PlaceTrap
 getlabel backpack pingCheck 
 cooldown 'Setting Trap' 4600
 hotkey 'play script: Subs\Routing'
