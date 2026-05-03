@@ -280,7 +280,7 @@ while not dead
         // ================================ WEAPON ABILITY PORTION    
         if insysmsg 'Weapon ability ready.'
             while not dead
-                if skill 'Arcane' > 50 and skill 'tinkering'
+                if skill 'Arcane' > 50 
                     say [WeaponAbility1
                     break    
                 endif    
@@ -319,68 +319,68 @@ while not dead
     endif
     
     // ================================ EQUIP WEAPON / SHIELD
-    // heater kite bronze metal buckler
-    if lhandempty and cooldown 'move' and findtype 7031|7029|7026|7035|7027 backpack as _Shield
+    // heater kite bronze metal buckler, parry knife, boneshield, wdKite, chaos, wooden
+    if lhandempty and cooldown 'move' and findtype 7031|7029|7026|7035|7027|31002|31130|7033|7107|7034 backpack as _Shield
         getlabel _Shield desc
         if 'exceptional' in desc
             if not casting and not targetexists  
                 dclick _Shield
                 overhead 'Shield'
                 getlabel backpack pingCheck 
-            else 
-                @ignore _1hWeapon
-            endif 
-            while rhandempty and not casting and not targetexists 
-                // kryss assasin dager, thunter knife, kukri, warfork, eep, rapier, sabre
-                while skill 'Fencing' >= 80 and findtype 5121|30996|31188|31176|5125|30989|30997|30998 backpack as _1hWeapon
-                    getlabel _1hWeapon desc
-                    if 'exceptional' in desc
-                        dclick _1hWeapon
-                        overhead 'Fencing Weapon'
-                        getlabel backpack pingCheck 
-                        break
-                    else 
-                        @ignore _1hWeapon
-                    endif 
-                endwhile
-                // pick hammer, war axe, mace, maul, war mace,   
-                while skill 'Mace Fighting' >= 80 and findtype 5181|5040|3932|5179|5127 backpack as _1hWeapon
-                    getlabel _1hWeapon desc
-                    if 'exceptional' in desc
-                        dclick _1hWeapon
-                        overhead 'Mace Weapon'
-                        getlabel backpack pingCheck 
-                        break
-                    else 
-                        @ignore _1hWeapon
-                    endif
-                endwhile
-                // cutlass, Katanna, scimitar, broadsword, longsword, viking, norse, 
-                while skill 'Swordsmanship' >= 80 and findtype 5185|5119|5046|3934|3937|5049|31128 backpack as _1hWeapon
-                    getlabel _1hWeapon desc
-                    if 'exceptional' in desc
-                        dclick _1hWeapon
-                        overhead 'Sword Weapon'
-                        getlabel backpack pingCheck 
-                        break
-                    else 
-                        @ignore _1hWeapon
-                    endif 
-                endwhile
-                while findtype 3834 backpack as _Spellbook
-                    getlabel _Spellbook desc
-                    if 'exceptional' in desc
-                        dclick _Spellbook
-                        overhead 'Spellbook'
-                        getlabel backpack pingCheck 
-                        break
-                    else 
-                        @ignore _Spellbook
-                    endif 
-                endwhile              
-                break
-            endwhile                   
-        endif   
+            endif
+        else 
+            @ignore _Shield
+        endif 
+        while rhandempty and not casting and not targetexists 
+            // kryss assasin dager, thunter knife, kukri, warfork, eep, rapier, sabre
+            while skill 'Fencing' >= 80 and findtype 5121|30996|31188|31176|5125|30989|30997|30998 backpack as _1hWeapon
+                getlabel _1hWeapon desc
+                if 'exceptional' in desc
+                    dclick _1hWeapon
+                    overhead 'Fencing Weapon'
+                    getlabel backpack pingCheck 
+                    break
+                else 
+                    @ignore _1hWeapon
+                endif 
+            endwhile
+            // pick hammer, war axe, mace, maul, war mace, skullclub, cudgel, club
+            while skill 'Mace Fighting' >= 80 and findtype 5181|5040|3932|5179|5127|3100|31014|5044 backpack as _1hWeapon
+                getlabel _1hWeapon desc
+                if 'exceptional' in desc
+                    dclick _1hWeapon
+                    overhead 'Mace Weapon'
+                    getlabel backpack pingCheck 
+                    break
+                else 
+                    @ignore _1hWeapon
+                endif
+            endwhile
+            // cutlass, Katanna, scimitar, broadsword, longsword, viking, norse, 
+            while skill 'Swordsmanship' >= 80 and findtype 5185|5119|5046|3934|3937|5049|31128 backpack as _1hWeapon
+                getlabel _1hWeapon desc
+                if 'exceptional' in desc
+                    dclick _1hWeapon
+                    overhead 'Sword Weapon'
+                    getlabel backpack pingCheck 
+                    break
+                else 
+                    @ignore _1hWeapon
+                endif 
+            endwhile
+            while findtype 3834 backpack as _Spellbook
+                getlabel _Spellbook desc
+                if 'exceptional' in desc
+                    dclick _Spellbook
+                    overhead 'Spellbook'
+                    getlabel backpack pingCheck 
+                    break
+                else 
+                    @ignore _Spellbook
+                endif 
+            endwhile              
+            break
+        endwhile                   
     elseif rhandempty and lhandempty and not casting and not targetexists 
         while skill 'Arcane' >= 80 and findtype 31017|31019|31021|31023|31025|31029|31031|31033|31035|31037|31038|31041|31043|31045|31047|31049|31051|31053|31055 backpack as _2hWeapon
             getlabel _2hWeapon desc
@@ -417,8 +417,8 @@ while not dead
                 @ignore _2hWeapon
             endif  
         endwhile
-        // war hammer, sledgehammer, great mace, spiked club
-        while skill 'Mace Fighting' >= 80 and findtype 5177|31001|31180|31182 backpack as _2hWeapon
+        // war hammer, sledgehammer, great mace, spiked club, quarter, gnarled, black, crook, giant club,
+        while skill 'Mace Fighting' >= 80 and findtype 5177|31001|31180|31182|3721|5112|3568|3713|31178 backpack as _2hWeapon
             getlabel _2hWeapon desc
             if 'exceptional' in desc
                 dclick _2hWeapon
@@ -454,7 +454,6 @@ while not dead
             endif
         endwhile       
     endif 
-    
         
     // --- DISARM     
     if skill 'armslore' >= 80 and not cooldown 'disarm'
@@ -516,11 +515,14 @@ while not dead
     endif
  
     // ================================ BARD TOOL SET
+    // drum, lap harp, lute, tambourine,
+    // 3740|3762|3763|3742
     if skill 'musicianship' >= 80
-        if skill 'discordance' >= 80 and not findbuff 'Song of Discordance' and not hidden and not casting and not targetexists and findtype 'lute' self as 'mylute' 
+        if skill 'discordance' >= 80 and not findbuff 'Song of Discordance' and not hidden and not casting and not targetexists and findtype 3740|3762|3763|3742 self as 'Instrument' 
             skill 'discordance' 
+            wait 111
             getlabel backpack pingCheck  
-            target 'mylute'
+            target 'Instrument'
             getlabel backpack pingCheck  
         endif  
             
@@ -726,129 +728,6 @@ while not dead
         endif 
     endif
     
-    // ================================ HARVEST TOOL SET
-    if skill 'mining' >= 40 and warmode and not hidden and not cooldown 'Harvest' and not casting and not targetexists 
-        // ========  LOAD TOOL
-        if rhandempty and lhandempty
-            overhead 'Finding Tool' 44
-            if findtype 'pickaxe' backpack as equiptTool
-                dclick equiptTool
-                wait 800
-            elseif not findtype 'pickaxe' and not cooldown 'No tools'
-                overhead '= N O  T O O L S ='
-                warmode off
-                cooldown 'No Tools' 10000      
-            endif      
-        endif          
-        if findtype 'pickaxe' hand as HarvestTool 
-            dclick HarvestTool
-            waitfortarget 500
-            cooldown 'Harvest' 850
-            target self        
-        endif
-        // --- CALL OUT COLOR OF ORE
-        if insysmsg 'you dig some dull copper ore'
-            overhead 'Dull Copper Ore' 44
-        endif 
-        if insysmsg 'you dig some shadow ore'
-            overhead 'Shadow Ore' 44
-        endif 
-        if insysmsg 'you dig some copper ore'
-            overhead 'Copper Ore' 44
-        endif     
-        if insysmsg 'you dig some bronze ore'
-            overhead 'Bronze Ore' 44
-        endif       
-        if insysmsg 'you dig some golden ore'
-            overhead 'Golden Ore' 44
-        endif
-        if insysmsg 'you dig some agapite ore'
-            overhead 'Agapite Ore' 44
-        endif 
-        if insysmsg 'you dig some verite ore'
-            overhead 'Verite Ore' 44
-        endif   
-        if insysmsg 'you dig some valorite ore'
-            overhead 'Valorite Ore' 44
-        endif 
-        if insysmsg 'you dig some Avarite ore'
-            overhead 'Avarite Ore' 44
-        endif
-    
-    elseif skill 'lumberjacking' >= 40 and warmode and not hidden and not cooldown 'Harvest' and not casting and not targetexists
-        // ========  LOAD TOOL
-        if not hidden and rhandempty and lhandempty
-            overhead 'Finding Tool' 44
-            if findtype 'hatchet' backpack as equiptTool
-                dclick equiptTool
-                wait 800
-                elseif not findtype 'hatchet' and not cooldown 'No tools'
-                overhead '= N O  T O O L S ='
-                warmode off
-                cooldown 'No Tools' 10000      
-            endif      
-        endif  
-        if findtype 'hatchet' hand as HarvestTool
-            dclick HarvestTool
-            waitfortarget 500
-            cooldown 'Harvest' 900  
-            target self
-            if targetexists 
-                target self  
-            endif
-        endif  
-        // --- CALL OUT COLOR OF LUMBER
-        if insysmsg 'you chop some dullwood'
-            overhead 'Dullwood Lumber' 44
-        endif 
-        if insysmsg 'you chop some shadowwood'
-            overhead 'Shadowwood Lumber' 44
-        endif 
-        if insysmsg 'you chop some copperwood'
-            overhead 'Copperwood Lumber' 44
-        endif     
-        if insysmsg 'you chop some bronzewood'
-            overhead 'Bronzewood Lumber' 44
-        endif       
-        if insysmsg 'you chop some goldenwood'
-            overhead 'Goldenwood Lumber' 44
-        endif
-        if insysmsg 'you chop some rosewood wood'
-            overhead 'Rosewood Lumber' 44
-        endif 
-        if insysmsg 'you chop some verewood'
-            overhead 'Verewood Lumber' 44
-        endif   
-        if insysmsg 'you chop some valewood'
-            overhead 'Valewood Lumber' 44
-        endif 
-        if insysmsg 'you chop some Avarwood'
-            overhead 'Avarwood Lumber' 44
-        endif    
-        // ======== RESOURCE CONVERSION           
-        if findtype '7133' self as log
-            dclick log
-            wait 500
-        endif       
-    elseif skill 'fishing' >= 40 and warmode and not hidden and not cooldown 'Harvest' and not casting and not targetexists 
-        // ========  LOAD TOOL
-        if not hidden and rhandempty and lhandempty
-            overhead 'Finding Tool' 44
-            if findtype 'fishing pole' backpack as equiptTool
-                dclick equiptTool
-                wait 800
-                elseif not findtype 'fishing pole' and not cooldown 'No tools'
-                overhead '= N O  T O O L S ='
-                warmode off
-                cooldown 'No Tools' 10000      
-            endif      
-        endif  
-        if findtype 'fishing pole' hand as HarvestTool
-            dclick HarvestTool
-            cooldown 'Harvest' 10000       
-        endif
-    endif
-     
     // ================================ Recycle Section    
     if insysmsg "What should I use these scissors on?" and findtype "sewing kit|saw|pen and ink|tongs|tool kit" backpack
         hotkey 'Cancel Current Target'
@@ -962,3 +841,4 @@ hotkey 'play script: Subs\Home_Resupply'
 // v1.02 edited recycle to include quiver and pots
 // v1.03 moved health and wellnesss
 // v1.05 re worked weapon/shield/spellbook
+// v1.06 added instrument ids, removed harvest section, added more shield/weapon ids, minor while tweeks
