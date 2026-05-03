@@ -84,7 +84,7 @@ if diffhits < 30 and skill 'stealing' >= 80 and skill 'Hiding' >= 80 and not coo
                         while queued
                             //donothing
                         endwhile
-                        dclick sbombs
+                        say [SmokeBomb
                         getlabel backpack pingCheck
                         if hidden
                             if not cooldown "Smoke bomb"
