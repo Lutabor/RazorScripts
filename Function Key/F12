@@ -1,0 +1,50 @@
+// === F12 
+
+// === PEACE AREA
+if skill 'peacemaking' >= 80
+    skill 'peacemaking'
+    wft 222
+    target 'self'
+    if targetexists 
+        target 'self'
+    endif
+endif
+if skill 'discordance' >= 80
+    skill 'discordance'
+    wft 222
+    target 'self'
+    if targetexists 
+        target 'self'
+    endif
+endif
+
+// === Set Trap
+if skill 'tinkering' >= 80 and skill 'Detecting Hidden' >= 80
+    if not hidden and not casting and not targetexists and skill 'magery' >= 60 and not cooldown 'Setting Trap' and findtype '3972' self and findtype '3973' self and findtype '3974' self and mana > 54 
+        cast 'Greater Heal'
+        wait 100
+    endif  
+    say [PlaceTrap
+    getlabel backpack pingCheck 
+    cooldown 'Setting Trap' 4600
+    // hotkey 'play script: Subs\Routing'
+endif
+
+// === Hides
+if skill 'Hiding' >= 80 and skill 'stealth' >= 80 and not cooldown 'Hiding' and not cooldown 'Stealth' 
+    if not hidden
+        useskill hiding
+        wait 100
+        if not hidden and not cooldown 'Hiding' and not cooldown 'Stealth' and not cooldown 'Smoke Bomb' and findtype '52149' self as smokebomb
+            dclick smokebomb
+            wait 100
+            if cooldown 'Hiding'
+                cooldown 'Smoke Bomb' 60000
+            endif 
+        endif
+    endif  
+endif
+    
+hotkey 'play script: Subs\Routing'  
+
+// v1.00 created
