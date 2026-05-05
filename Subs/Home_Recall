@@ -1,0 +1,45 @@
+// Go in room
+say 'Guards Room'  
+wait 100
+// Checks for inn
+if gumpexists 2393832411
+    getlabel backpack pingCheck 
+    if name = 'Spellbreaker'   
+        gumpresponse 4
+        getlabel backpack pingCheck
+    elseif name = 'Lutabor'
+        gumpresponse 4
+        getlabel backpack pingCheck     
+    else 
+        gumpresponse 5
+        waitforgump 2393832411 200
+        gumpresponse 100   
+        getlabel backpack pingCheck
+    endif    
+    wait 1000
+    hotkey 'play script: Subs\Home_Resupply'
+endif
+
+// check for gate including OmniGate
+if findtype 'blue moongate|27754|3948|30528' ground -1 -1 2 as moongate
+    dclick moongate
+    waitforgump 'any' 800
+    getlabel backpack pingCheck
+    gumpresponse 2
+    wait 100
+endif    
+// recall 
+if findtype 'runetome' self as mybook
+    dclick mybook
+    getlabel backpack pingCheck
+    waitforgump 167090027
+    gumpresponse 100
+    warmode off
+    getlabel backpack pingCheck
+    if not insysmsg 'Magical travel from inside'
+        wait 3200
+        hotkey 'play script: Subs\Home_Enter'  
+    endif    
+endif  
+
+hotkey 'play script: Subs\Routing'
