@@ -1,0 +1,24 @@
+// Go in room
+say 'Guards Room'  
+wait 100
+if gumpexists 2393832411
+    getlabel backpack pingCheck 
+// change my char names to your char names for the owners of the inn, not co-owners or friends
+    if name = 'Spellbreaker'   
+        gumpresponse 4
+        getlabel backpack pingCheck
+    elseif name = 'Lutabor'
+        gumpresponse 4
+        getlabel backpack pingCheck
+// co-owners and friends enter room in this section below, nothing to change
+    else 
+        gumpresponse 5
+        waitforgump 2393832411 200
+        gumpresponse 100   
+        getlabel backpack pingCheck
+    endif    
+    wait 1000
+    hotkey 'play script: Subs\Home_Resupply'
+endif
+
+hotkey 'play script: Subs\Routing'    
