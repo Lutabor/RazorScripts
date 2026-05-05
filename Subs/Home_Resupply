@@ -1,0 +1,405 @@
+//  ---- clears bag by restockand then resupplies
+
+if findtype '62760' ground -1 -1 2 as GlowingBarrel
+    overhead 'Resupply v2.00'   
+    dclick GlowingBarrel
+    getlabel backpack pingCheck
+    // ----- Repair Bench
+    if findtype '29355|29354|repair bench' ground -1 -1 2 as repairBench
+        overhead 'Repair Bench'
+        dclick repairBench
+        wait 1000
+        dclick repairBench
+        getlabel backpack pingCheck
+        dclick repairBench
+        wait 1000
+        dclick repairBench
+        getlabel backpack pingCheck
+    endif    
+    // ----- RESOURCE CONVERSION       
+    if findtype '7133' self as log
+        dclick log
+        wait 500
+    endif      
+    // ----- Ore & Wood
+    while findtype 'iron ore|dull copper ore|shadow ore|copper ore|bronze ore|gold ore|agapite ore|verite ore|valorite ore|avarite ore' backpack as ore
+        overhead 'Smelting Ore'
+        dclick ore
+        wait 1000
+        if insysmsg 'You have no idea how to smelt'
+            break
+        endif
+    endwhile    
+    // ----- Loading Shelf Items
+        overhead 'Loading Shelf Items'
+        getlabel backpack pingCheck
+        menu 0x58405873 0
+        wft 500
+        target self
+        getlabel backpack pingCheck
+        menu 0x58405873 0
+        wft 500
+        target self
+        getlabel backpack pingCheck
+    // ----- MAGIC ITEM RECYCLE - ornate elven chest, 11762
+    overhead 'Loading Magic Item Recycler'
+        getlabel backpack pingCheck
+        menu 0x445C4ECE 1
+        wft 500
+        target self
+        getlabel backpack pingCheck
+    // ----- USE RECYCLER 
+        overhead 'Recycling Magic Items'
+        dclick 0x445C4ECE
+        waitforgump 4045111101
+        gumpresponse 7
+        waitforgump 4045111101
+        gumpresponse 6
+        waitforgump 4045111101
+        gumpresponse 6
+    // ----- STOCKPILE 23034
+        overhead 'Loading Stockpile'
+        getlabel backpack pingCheck
+        menu 0x445B568A 0
+        wft 500
+        target self
+        getlabel backpack pingCheck
+    // ----- GRAB FROM RECYCLER
+        menu 0x445B568A 0
+        wft 500
+        target 0x445C4ECE
+        getlabel backpack pingCheck
+    // ----- MAGICAL ITEM VAULT
+    //    if find 0x4237D1E9 ground -0 -0 2
+        dclick 0x4237D1E9
+        waitforgump 938517546
+        gumpresponse 2
+        waitfortarget 222
+        waitforgump 938517546
+        target 'self'  
+        getlabel backpack pingCheck 
+        // ----- Clear Recycler
+        waitforgump 938517546
+        gumpresponse 2
+        waitfortarget 222
+        target 0x445C4ECE        
+        getlabel backpack pingCheck  
+        // opens magic item vault
+        dclick 0x4237D1E9
+        wait 888
+    //    endif   
+  
+    // ----- Flooring Resources 1799 0x4BC00655
+        overhead 'Flooring Shelf'
+        wait 300
+        menu 0x4BC00655 0
+        wft 500
+        target self
+        getlabel backpack pingCheck    
+ 
+    // ----- Plant Resources 51189
+        overhead 'Garden Shelf'
+        wait 300
+        menu 0x53FB497E 0
+        wft 500
+        target self
+        getlabel backpack pingCheck
+    // ----- bank deposit safe 23034 // Gold Coin 3821
+        overhead 'Deposting Gold & Doubloons'
+        menu 0x4B597306 0
+        getlabel backpack pingCheck    
+    // ----- Drops all maps, chains, cloth, dyes etc 
+    //      Treasure Chest 0x58D7C2CC || Vined Chest 0x55458644
+        menu 0x4DEFB7E8 0
+        getlabel backpack pingCheck
+        menu 0x4DED4B57 0
+        getlabel backpack pingCheck
+        menu 0x48CA4142 0
+        getlabel backpack pingCheck
+        menu 0x48CA68F6 0
+        getlabel backpack pingCheck
+        menu 0x4901A7BD 0
+        getlabel backpack pingCheck
+        menu 0x54A2A2C5 0
+        getlabel backpack pingCheck
+        menu 0x594D737B 0
+        getlabel backpack pingCheck
+        menu 0x5A670FDB 0
+        getlabel backpack pingCheck
+        menu 0x54A35158 0
+        getlabel backpack pingCheck
+        menu 0x4901F124 0
+        getlabel backpack pingCheck
+        menu 0x5A67189A 0
+        getlabel backpack pingCheck
+        menu 0x53365B4C 0
+        getlabel backpack pingCheck
+        
+    #// ----- Orbs & Papers & Redlightning
+    #while findtype 22336|24434|25359 self as Specialty
+    #    lifttype Specialty
+    #    wait 1000
+    #    drop 0x745EB062
+    #endwhile
+        
+    // ----- restock from shelf and opens shelf
+        overhead 'Resupply'
+        menu 0x58405873 1
+        getlabel backpack pingCheck
+        wait 888
+        dclick 0x58405873
+        wait 1000
+    // ----- Open Footlocker
+    if find 0x745EB062 ground -1 -1 2 
+        dclick 0x745EB062
+        wait 888
+    endif
+    // --- Open Rune Tome
+    if findtype 'runetome'self as mybook
+        getlabel mybook desc
+        if 'Adventure' in desc
+            dclick mybook
+            wait 888
+        endif  
+    endif
+endif
+    
+// === Meditation - Mana Regen
+if not cooldown 'move' and not cooldown 'Meditate'
+    skill 'meditation'
+    cooldown 'Meditate' 10100
+endif
+
+################################### Clothing Loop
+if findtype '5075' backpack as _Chest
+    dclick _Chest
+    wait 888
+endif
+if findtype '5074' backpack as _Legs
+    dclick _Legs
+    wait 888
+endif
+if findtype '5061' backpack as _Arms
+    dclick _Arms
+    wait 888
+endif
+if findtype '5201|5443|10136|21786|21940|31156|31212|31214|31243|31244|31280|31289|31304|31320|31335|31354|31371|31383|31394|31399|31403' backpack as _ArmorHelm
+    dclick _ArmorHelm 
+    wait 888
+endif
+if findtype '21797|21798|22183|31252|31271|31301' backpack as _ArmonNeck
+    dclick _ArmonNeck 
+    wait 888
+endif
+if findtype '' backpack as _Back
+    dclick _Back 
+    wait 888
+endif
+if findtype '' backpack as _BackSecondary
+    dclick _BackSecondary 
+    wait 888
+endif
+if findtype '' backpack as _Bracelet
+    dclick _Bracelet 
+    wait 888
+endif
+if findtype '21942|21943' backpack as _Cloak
+    dclick _Cloak 
+    wait 888
+endif
+if findtype '' backpack as _CosmeticArmorArms
+    dclick _CosmeticArmorArms 
+    wait 888
+endif
+if findtype '' backpack as _CosmeticArmorChest
+    dclick _CosmeticArmorChest 
+    wait 888
+endif
+if findtype '' backpack as _CosmeticArmorLegs
+    dclick _CosmeticArmorLegs 
+    wait 888
+endif
+if findtype '' backpack as _Earrings
+    dclick _Earrings 
+    wait 888
+endif
+if findtype '' backpack as _EyeWare
+    dclick _EyeWare 
+    wait 888
+endif
+if findtype '31258' backpack as _Face
+    dclick _Face 
+    wait 888
+endif
+if findtype '' backpack as _Hip
+    dclick _Hip 
+    wait 888
+endif
+if findtype '8059|21840|21931|21981|31216|31319|31322|31328|31359|31388|31416|31418|' backpack as _MiddleTorso
+    dclick _MiddleTorso 
+    wait 888
+endif
+if findtype '31165' backpack as _Necklace
+    dclick _Necklace 
+    wait 888
+endif
+if findtype '31166|31370' backpack as _OneHanded
+    dclick _OneHanded 
+    wait 888
+endif
+if findtype '22451|31361|31398' backpack as _OuterArms
+    dclick _OuterArms 
+    wait 888
+endif
+if findtype '21873|31207|31231|31379' backpack as _OuterBody
+    dclick _OuterBody 
+    wait 888
+endif
+if findtype '31324' backpack as _OuterCloak
+    dclick _OuterCloak 
+    wait 888
+endif
+if findtype '5398|5431|21902|21950|22453|30614|31154|31279|31286|31306|31329|31331|31351|31366|31384|31406' backpack as _OuterLegs
+    dclick _OuterLegs 
+    wait 888
+endif
+if findtype '7939|21826|21934|21964|31199|31200|31202|31206|31211|31213|31234|31238|31245|31259|31278|31287|31296|31298|31234|31305|31321|31339|31356|31372|31392' backpack as _OuterTorso
+    dclick _OuterTorso 
+    wait 888
+endif
+if findtype '31355' backpack as _OuterWaist
+    dclick _OuterWaist 
+    wait 888
+endif
+if findtype '5422|5433|31204|31236|31250|31300|31323|31346|31404' backpack as _Pants
+    dclick _Pants 
+    wait 888
+endif
+if findtype '' backpack as _Quiver
+    dclick _Quiver 
+    wait 888
+endif
+if findtype '5399|21853|31233|31326|31343' backpack as _Shirt
+    dclick _Shirt 
+    wait 888
+endif
+if findtype '5903|5905|31248|31253|31299|31318|31340|31349|31387|31391' backpack as _Shoes
+    dclick _Shoes 
+    wait 888
+endif
+if findtype '21947|30771|31149|31153|31239|31285|31353|31393|31405' backpack as _Shoulder
+    dclick _Shoulder 
+    wait 888
+endif
+if findtype '2594|3947|31294|31410' backpack as _TwoHandedSecondary
+    dclick _TwoHandedSecondary 
+    wait 888
+endif
+if findtype '' backpack as _UnderArms
+    dclick _UnderArms 
+    wait 888
+endif
+if findtype '' backpack as _UnderGarment
+    dclick _UnderGarment 
+    wait 888
+endif
+if findtype '31284' backpack as _UnderLegs
+    dclick _UnderLegs 
+    wait 888
+endif
+if findtype '22158|21879|21882|30561|30609|31210|31232|31272|31317|31330|31333|31338|31350|31358|31380' backpack as _Waist
+    dclick _Waist 
+    wait 888
+endif
+if findtype '21953|30663|31122|31412' backpack as _ArmorGloves
+    dclick _ArmorGloves 
+    wait 888
+endif
+
+
+################################### Armor Loop
+if not findtype '62760' ground -1 -1 2 
+    // Norse, plate, studded, leather, bascinet, helmet, chainmail, bone, closed
+    while findtype 5132|5138|31011|7610|5135|5131|5056|5201|5129 backpack as _Helm
+        getlabel _Helm desc
+        if 'exceptional' in desc
+            dclick _Helm
+            overhead 'Helm'
+            getlabel backpack pingCheck 
+            break
+        else 
+            @ignore _Helm
+        endif 
+    endwhile     
+    // ringmail, chain, leather, plate, bone, ring, studded
+    while findtype 31009|31006|5063|5139|31003|31009|5078 backpack as _Neck
+        getlabel _Neck desc
+        if 'exceptional' in desc
+            dclick _Neck
+            overhead 'Neck'
+            getlabel backpack pingCheck 
+            break
+        else 
+            @ignore _Neck
+        endif 
+    endwhile 
+    // bustier, f-plate, ring, studded, jerkin, chainmail, bone, leather, f-leather, f-studded, plate, f-studbust
+    while findtype 7179|7173|5101|5090|31191|5060|5204|5075|7175|7170|5142|7181 backpack as _Chest
+        getlabel _Chest desc
+        if 'exceptional' in desc
+            dclick _Chest
+        overhead 'Chest'
+            getlabel backpack pingCheck 
+            break
+        else 
+            @ignore _Chest
+        endif 
+    endwhile
+    // studded, ring, ringskirt, bone, plate, leather, plateSkirt, leatherskirt, chain, studSkirt, boneSkirt, chainSkirt, leather shorts
+    while findtype 5089|5105|31010|5207|5146|5074|31008|7177|5059|31012|31004|31007|7169 backpack as _Legs
+        getlabel _Legs desc
+        if 'exceptional' in desc
+            dclick _Legs
+            overhead 'Legs'
+            getlabel backpack pingCheck 
+            break
+        else 
+            @ignore _Legs
+        endif 
+    endwhile    
+    // plate, ring, leather, studded, chain, bone
+    while findtype 7169|5103|5061|5076|31005|5203 backpack as _Arms
+        getlabel _Arms desc
+        if 'exceptional' in desc
+            dclick _Arms
+            overhead 'Arms'
+            getlabel backpack pingCheck 
+            break
+        else 
+            @ignore _Arms
+        endif 
+    endwhile  
+    // chain, studded, bone, ring, plate, leather
+    while findtype 31015|5085|5205|5106|5144|5070 backpack as _Gloves
+        getlabel _Gloves desc
+        if 'exceptional' in desc
+            dclick _Gloves
+        overhead 'Gloves'
+            getlabel backpack pingCheck 
+            break
+        else 
+            @ignore _Gloves
+        endif 
+    endwhile     
+endif    
+    
+
+// === Meditation - Mana Regen
+if not cooldown 'move' and not cooldown 'Meditate'
+    skill 'meditation'
+    cooldown 'Meditate' 10100
+endif
+
+
+
+hotkey 'play script: Subs\Routing'
