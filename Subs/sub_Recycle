@@ -2,7 +2,10 @@
 #### recycle backback items with individual -not container- id-wands - recylce ID-Wand at 1-use-left
 
 
-## _util_ltrap_recycler__check_all_items - 0 to constrain to "unidentified" - 1 check all
+#### _util_ltrap_recycler__check_all_items - 0 to constrain to "unidentified" - 1 check all
+#### cases for enableing
+####  - pickup id-d gear and then recycle it
+####  - script interrupted after id-ing item but before recycle
 @setvar  _util_ltrap_recycler__check_all_items  1
 
 
@@ -85,7 +88,7 @@ if varexist _id_wand
     @unsetvar _id_wand
 endif
 
-@clearignore
+#@clearignore
 // === Recycle Section
 @setvar _loop_recycle 1
 while _loop_recycle == 1 and findtype "sewing kit|saw|pen and ink|tongs|tool kit" backpack as breakdowntool
@@ -136,17 +139,19 @@ while _loop_recycle == 1 and findtype "sewing kit|saw|pen and ink|tongs|tool kit
                     //donothing
                 endwhile
 
-                @getlabel _id_wand _label
-                if "(1 uses remaining)" in _label or "(1 use remaining)" in _label
-                    overhead "ID Wand is spent - should not get here - fix script - {{_label}}" 1779
-                    overhead "this is spent" 1779 _id_wand
-                    hotkey 'play script: Subs\Routing'
+                if "unidentified" in desc
+                    @getlabel _id_wand _label
+                    if "(1 uses remaining)" in _label or "(1 use remaining)" in _label
+                        overhead "ID Wand is spent - should not get here - fix script - {{_label}}" 1779
+                        overhead "this is spent" 1779 _id_wand
+                        hotkey 'play script: Subs\Routing'
+                    endif
+                    dclick _id_wand
+                    wft 1000
+                    target IDitem
+                    waitforsysmsg "You identify the item." 1000
+                    getlabel IDitem desc
                 endif
-                dclick _id_wand
-                wft 1000
-                target IDitem
-                waitforsysmsg "You identify the item." 1000
-                getlabel IDitem desc
                 #if "blessed" in desc
                 #    @ignore IDitem
                 #else
@@ -202,7 +207,9 @@ while _loop_recycle == 1 and findtype "sewing kit|saw|pen and ink|tongs|tool kit
                 #endif
 
             else
-                @ignore IDitem
+                ## already ID-d - but also could get here on script interruption so cannot ignore - should try to recycle or keep
+                ## should never get here if _util_ltrap_recycler__check_all_items == 1
+                #@ignore IDitem
             endif
             #if not findtype 20496 backpack
             #    overhead "no more id wands"
